@@ -1,9 +1,20 @@
 <template>
     <div class="navi">
-        <a href="/">
-            <span class="webname">Tiny分享</span>
-        </a>
+        <div class="web-tag">
+            <a href="/">
+                <span class="webname">Tiny分享</span>
+            </a>
+            <div class="search">
+                <el-icon class="search-ic">
+                    <Search />
+                </el-icon>
+                <input @keyup.enter="submit22" class="search-input" v-model="input" placeholder="搜索关键字" type="text"
+                    maxlength="20" />
+            </div>
+        </div>
+
         <div class="top-item">
+
             <div class="item">
                 <el-icon class="ic" :size="30">
                     <HomeFilled />
@@ -11,12 +22,6 @@
                 <span>首&nbsp;页</span>
             </div>
             <span class="login">登&nbsp;录</span>
-            <div class="search">
-                <el-icon class="search-ic">
-                    <Search />
-                </el-icon>
-                <input class="search-input" v-model="input" placeholder="Please input" />
-            </div>
         </div>
     </div>
 
@@ -27,7 +32,12 @@
     export default {
         data() {
             return {
-
+                input: '',
+            }
+        },
+        methods: {
+            submit22() {
+                alert(this.input)
             }
         }
     }
@@ -36,7 +46,7 @@
 
 <style lang="scss" scoped>
     .navi {
-        height: 100px;
+        height: 150px;
         margin: 0 250px;
         display: flex;
         align-items: center;
@@ -46,6 +56,11 @@
         a:hover {
             color: #8492a6;
             text-decoration: none;
+        }
+
+        .web-tag {
+            display: flex;
+            flex-direction: row;
         }
 
         .webname {
@@ -117,7 +132,7 @@
             padding: 10px;
 
             .search-ic {
-                padding: 16px;
+                padding: 20px;
                 color: #409EFF;
                 border-radius: 50%;
                 background-color: #ddd;
@@ -138,9 +153,16 @@
             padding: 0 10px;
         }
 
+        .search:hover .search-input {
+            width: 800px;
+            padding: 0 10px;
+            border-bottom: 1px solid #409EFF;
+        }
+
         .search-input:focus {
             width: 800px;
             padding: 0 10px;
+            border-bottom: 1px solid #409EFF;
         }
 
         // .search-input:focus+.search-line {
