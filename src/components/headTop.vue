@@ -5,7 +5,7 @@
                 <span class="webname">Tiny分享</span>
             </a>
             <div class="search">
-                <el-icon class="search-ic">
+                <el-icon class="search-ic" :size="35">
                     <Search />
                 </el-icon>
                 <input @keyup.enter="submit22" class="search-input" v-model="input" placeholder="搜索关键字" type="text"
@@ -14,14 +14,16 @@
         </div>
 
         <div class="top-item">
-
             <div class="item">
                 <el-icon class="ic" :size="30">
                     <HomeFilled />
                 </el-icon>
                 <span>首&nbsp;页</span>
             </div>
-            <span class="login">登&nbsp;录</span>
+            <el-icon class="btn edit" @click="go2Publish" :size="30">
+                <Edit />
+            </el-icon>
+            <span class=" btn login">登&nbsp;录</span>
         </div>
     </div>
 
@@ -38,6 +40,9 @@
         methods: {
             submit22() {
                 alert(this.input)
+            },
+            go2Publish() {
+                this.$router.push('/publish')
             }
         }
     }
@@ -85,6 +90,7 @@
                     margin-right: 6px;
                 }
 
+
             }
 
             .item::after {
@@ -112,6 +118,10 @@
                 font-size: 32px;
             }
 
+            .btn:hover {
+                opacity: .8;
+            }
+
             .login {
                 background-color: #409EFF;
                 color: white;
@@ -119,10 +129,20 @@
                 font-weight: none;
                 padding: 6px 20px;
                 border-radius: 6px;
-                margin-left: 30px;
+                margin-left: 20px;
                 cursor: pointer;
             }
         }
+
+        .edit {
+            padding: 10px 20px;
+            background-color: #409EFF;
+            color: white;
+            margin-left: 20px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
 
         .search {
             display: flex;

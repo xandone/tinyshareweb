@@ -1,6 +1,6 @@
 @import "./base.css";
 
-*{
+span{
   font-size: 30px;
 }
 
@@ -15,7 +15,7 @@ a {
   background-color: transparent;
 }
 
-a:focus, a:hover {
+a:hover {
   color: #20a0ff;
   text-decoration: none;
 }

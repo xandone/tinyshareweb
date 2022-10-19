@@ -4,7 +4,11 @@
             <img class="card-img" src="http://www.xandone.pub/FmZzFx7cG3vzfpBA0MlmA1l5e9eB" alt="">
             <div class="card-descip">
                 <div class="date"><span>2022-11-12</span> <span>[影视]</span></div>
-                <h2><a href="" class="title">是多少分水电费水电费水电费</a></h2>
+                <h2>
+                    <router-link :to="'/details/'+bean" target="_blank" class="title">
+                        是多少分水电费水电费水电费
+                    </router-link>
+                </h2>
                 <span class="descip">是多少分水电费水电费水电费水电费水电费水电费水电费</span>
 
                 <div class="user-ic">
@@ -18,7 +22,7 @@
             <el-popover placement="top-start" trigger="hover">
                 <span class="colletion-tip">收藏资源</span>
                 <template #reference>
-                    <el-icon class="colletion" v-if="showCollection">
+                    <el-icon class="colletion" v-if="showCollection" :size="30">
                         <CollectionTag />
                     </el-icon>
                 </template>

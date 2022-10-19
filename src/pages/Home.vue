@@ -15,7 +15,7 @@
                     <el-popover placement="top-start" trigger="hover" popper-class="wrap">
                         <span class="tip">网格</span>
                         <template #reference>
-                            <el-icon class="ic" :size="80" @click="showGrid(true)" :class="isGrid?'active':'unactive'">
+                            <el-icon class="ic" :size="30" @click="showGrid(true)" :class="isGrid?'active':'unactive'">
                                 <Grid />
                             </el-icon>
                         </template>
@@ -23,7 +23,7 @@
                     <el-popover placement="top-start" trigger="hover">
                         <span class="tip">列表</span>
                         <template #reference>
-                            <el-icon class="ic" :size="80" @click="showGrid(false)" :class="isGrid?'unactive':'active'">
+                            <el-icon class="ic" :size="30" @click="showGrid(false)" :class="isGrid?'unactive':'active'">
                                 <List />
                             </el-icon>
                         </template>
@@ -118,6 +118,7 @@
             }
 
             .ic {
+                padding: 25px;
                 cursor: pointer;
                 border-radius: 50%;
             }

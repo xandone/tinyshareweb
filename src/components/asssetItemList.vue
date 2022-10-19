@@ -9,7 +9,7 @@
                         <h2><a href="">是多少分水电费水电费水电费</a></h2>
                     </div>
                     <div class="user-des-date">
-                        <div class="des">是多少分水电费水电费水电费是多少分水电费水电费水电费是多少分水电费水电费水电费是多少分水电费水电费水电费</div>
+                        <div class="des"><span>是多少分水电费水电费水电费是多少分水电费水电费水电费是多少分水电费水电费水电费是多少分水电费水电费水电费</span></div>
                         <div class="user-date">
                             <div class="user-ic">
                                 <el-icon :size="30">
@@ -27,7 +27,7 @@
         <el-popover placement="top-start" trigger="hover" v-if="showCollection">
             <span class="colletion-tip">收藏资源</span>
             <template #reference>
-                <el-icon class="colletion">
+                <el-icon class="colletion" :size="30">
                     <CollectionTag />
                 </el-icon>
             </template>
