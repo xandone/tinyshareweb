@@ -36,11 +36,11 @@
     }
 
     h2 {
-        margin-top: 50px;
+        margin-top: 20px;
     }
 
     .title {
-        font-size: 36px;
+        font-size: 20px;
         color: #8492a6;
     }
 
@@ -49,6 +49,8 @@
     }
 
     .extract-code {
+
+        font-size: 16px;
 
         .code {
             color: #555;

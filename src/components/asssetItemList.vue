@@ -12,7 +12,7 @@
                         <div class="des"><span>是多少分水电费水电费水电费是多少分水电费水电费水电费是多少分水电费水电费水电费是多少分水电费水电费水电费</span></div>
                         <div class="user-date">
                             <div class="user-ic">
-                                <el-icon :size="30">
+                                <el-icon :size="16">
                                     <User />
                                 </el-icon>
                                 <span>xandone</span>
@@ -27,7 +27,7 @@
         <el-popover placement="top-start" trigger="hover" v-if="showCollection">
             <span class="colletion-tip">收藏资源</span>
             <template #reference>
-                <el-icon class="colletion" :size="30">
+                <el-icon class="colletion" :size="14">
                     <CollectionTag />
                 </el-icon>
             </template>
@@ -67,7 +67,7 @@
 
     #card-list-root:hover {
         transition: all 0.3s linear;
-        transform: translateX(-30px);
+        transform: translateX(-10px);
     }
 
     .shadow-root {
@@ -75,8 +75,8 @@
         // margin-bottom: 10px;
 
         .card-img {
-            width: 300px;
-            height: 200px;
+            width: 150px;
+            height: 100px;
         }
 
 
@@ -93,7 +93,7 @@
             align-items: center;
 
             span {
-                font-size: 30px;
+                font-size: 12px;
                 color: #99a9bf;
             }
 
@@ -104,7 +104,7 @@
 
             a {
                 margin-right: 10px;
-                font-size: 36px;
+                font-size: 16px;
             }
         }
 
@@ -115,7 +115,10 @@
             justify-content: space-between;
 
             .des {
-                color: #99a9bf;
+                span {
+                    color: #99a9bf;
+                    font-size: 14px;
+                }
             }
         }
 
@@ -133,13 +136,14 @@
 
             span {
                 margin-left: 6px;
+                font-size: 14px;
             }
         }
 
         .date {
             color: #99a9bf;
             margin-left: 20px;
-            font-size: 28px;
+            font-size: 12px;
         }
 
     }
@@ -155,6 +159,6 @@
     }
 
     .colletion-tip {
-        font-size: 22px;
+        font-size: 12px;
     }
 </style>

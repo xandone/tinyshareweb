@@ -1,9 +1,5 @@
 @import "./base.css";
 
-span{
-  font-size: 30px;
-}
-
 .w-raduis-bg{
 background-color: white;
 border-radius: 20px;

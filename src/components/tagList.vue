@@ -5,7 +5,7 @@
             <el-icon class="tag-ic">
                 <component :is="iconArr[index]"></component>
             </el-icon>
-            <span>{{item}}</span>
+            <span class="tag-name">{{item}}</span>
         </div>
 
     </div>
@@ -49,7 +49,7 @@
         flex-direction: row;
 
         .tag-item {
-            margin: 20px;
+            margin: 10px;
             position: relative;
             cursor: pointer;
             padding: 10px 20px;
@@ -86,6 +86,10 @@
 
         .tag-ic {
             margin-right: 6px;
+        }
+
+        .tag-name {
+            font-size: 15px;
         }
 
         @keyframes move1 {

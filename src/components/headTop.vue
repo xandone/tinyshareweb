@@ -1,11 +1,11 @@
 <template>
     <div class="navi">
         <div class="web-tag">
-            <a href="/">
-                <span class="webname">Tiny分享</span>
+            <a href="/" class="webname">
+                Tiny分享
             </a>
             <div class="search">
-                <el-icon class="search-ic" :size="35">
+                <el-icon class="search-ic" :size="18">
                     <Search />
                 </el-icon>
                 <input @keyup.enter="submit22" class="search-input" v-model="input" placeholder="搜索关键字" type="text"
@@ -15,12 +15,12 @@
 
         <div class="top-item">
             <div class="item">
-                <el-icon class="ic" :size="30">
+                <el-icon class="ic" :size="18">
                     <HomeFilled />
                 </el-icon>
                 <span>首&nbsp;页</span>
             </div>
-            <el-icon class="btn edit" @click="go2Publish" :size="30">
+            <el-icon class="btn edit" @click="go2Publish" :size="16">
                 <Edit />
             </el-icon>
             <span class=" btn login">登&nbsp;录</span>
@@ -51,8 +51,8 @@
 
 <style lang="scss" scoped>
     .navi {
-        height: 150px;
-        margin: 0 250px;
+        height: 80px;
+        margin: 0 200px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -69,9 +69,10 @@
         }
 
         .webname {
-            font-size: 60px;
+            font-size: 36px;
             font-weight: bold;
             font-family: '仿宋';
+            line-height: 80px;
         }
 
         .top-item {
@@ -96,7 +97,7 @@
             .item::after {
                 content: '';
                 position: absolute;
-                height: 4px;
+                height: 2px;
                 background-color: #409EFF;
                 bottom: -10px;
                 left: 0;
@@ -115,7 +116,7 @@
             }
 
             span {
-                font-size: 32px;
+                font-size: 16px;
             }
 
             .btn:hover {
@@ -125,7 +126,7 @@
             .login {
                 background-color: #409EFF;
                 color: white;
-                font-size: 28px;
+                font-size: 14px;
                 font-weight: none;
                 padding: 6px 20px;
                 border-radius: 6px;
@@ -135,7 +136,7 @@
         }
 
         .edit {
-            padding: 10px 20px;
+            padding: 8px 12px;
             background-color: #409EFF;
             color: white;
             margin-left: 20px;
@@ -148,11 +149,11 @@
             display: flex;
             align-items: center;
             flex-direction: row;
-            margin-left: 100px;
+            margin-left: 80px;
             padding: 10px;
 
             .search-ic {
-                padding: 20px;
+                padding: 12px;
                 color: #409EFF;
                 border-radius: 50%;
                 background-color: #ddd;
@@ -160,7 +161,7 @@
         }
 
         .search-input {
-            height: 60px;
+            height: 50px;
             width: 0;
             background-color: transparent;
             transition: all .3s linear;
@@ -169,18 +170,18 @@
         }
 
         .search:hover .search-input {
-            width: 800px;
+            width: 400px;
             padding: 0 10px;
         }
 
         .search:hover .search-input {
-            width: 800px;
+            width: 400px;
             padding: 0 10px;
             border-bottom: 1px solid #409EFF;
         }
 
         .search-input:focus {
-            width: 800px;
+            width: 400px;
             padding: 0 10px;
             border-bottom: 1px solid #409EFF;
         }

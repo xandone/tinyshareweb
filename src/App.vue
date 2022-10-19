@@ -4,6 +4,8 @@
   </div>
 </template>
 
-<style>
-  .app-bg {}
+<style scoped>
+  .app-bg {
+    height: 100%;
+  }
 </style>

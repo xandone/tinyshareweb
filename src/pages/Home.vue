@@ -3,7 +3,7 @@
         <headTop></headTop>
         <div class="content">
             <div class="banner">
-                <el-carousel height="600px">
+                <el-carousel height="300px">
                     <el-carousel-item v-for="item in 4" :key="item">
                         <img src="http://www.xandone.pub/FmZzFx7cG3vzfpBA0MlmA1l5e9eB" alt="">
                     </el-carousel-item>
@@ -15,7 +15,7 @@
                     <el-popover placement="top-start" trigger="hover" popper-class="wrap">
                         <span class="tip">网格</span>
                         <template #reference>
-                            <el-icon class="ic" :size="30" @click="showGrid(true)" :class="isGrid?'active':'unactive'">
+                            <el-icon class="ic" :size="18" @click="showGrid(true)" :class="isGrid?'active':'unactive'">
                                 <Grid />
                             </el-icon>
                         </template>
@@ -23,7 +23,7 @@
                     <el-popover placement="top-start" trigger="hover">
                         <span class="tip">列表</span>
                         <template #reference>
-                            <el-icon class="ic" :size="30" @click="showGrid(false)" :class="isGrid?'unactive':'active'">
+                            <el-icon class="ic" :size="18" @click="showGrid(false)" :class="isGrid?'unactive':'active'">
                                 <List />
                             </el-icon>
                         </template>
@@ -93,7 +93,7 @@
     }
 
     .content {
-        margin: 0 250px;
+        margin: 0 200px;
 
         .item-root {
             display: flex;
@@ -118,7 +118,7 @@
             }
 
             .ic {
-                padding: 25px;
+                padding: 12px;
                 cursor: pointer;
                 border-radius: 50%;
             }
@@ -135,6 +135,6 @@
 
 
     .tip {
-        font-size: 22px;
+        font-size: 14px;
     }
 </style>

@@ -1,21 +1,18 @@
 <template>
-    <div style="width: 100%">
-        <div>
-            <button @click="insertText">insert text</button>
-            <button @click="printHtml">print html</button>
-            <button @click="disable">disable</button>
+    <div id="publish-root">
+        <div class="edit-area">
+
         </div>
-        <div style="border: 1px solid #ccc; margin-top: 10px;">
+        <!-- 编辑器 -->
+        <div>
             <Toolbar :editor="editorRef" :defaultConfig="toolbarConfig" :mode="mode"
                 style="border-bottom: 1px solid #ccc" />
             <Editor :defaultConfig="editorConfig" :mode="mode" v-model="valueHtml"
-                style="height: 400px; overflow-y: hidden" @onCreated="handleCreated" @onChange="handleChange"
+                style="height: 500px; overflow-y: hidden" @onCreated="handleCreated" @onChange="handleChange"
                 @onDestroyed="handleDestroyed" @onFocus="handleFocus" @onBlur="handleBlur" @customAlert="customAlert"
                 @customPaste="customPaste" />
         </div>
-        <div style="margin-top: 10px">
-            <textarea v-model="valueHtml" readonly style="width: 100%; height: 200px; outline: none"></textarea>
-        </div>
+
     </div>
 </template>
 
@@ -37,19 +34,22 @@
             Editor,
             Toolbar
         },
+        data() {
+            return {
+                piclimit: 1,
+                coverImgUrl: '',
+                dialogVisible: false,
+                radioType: "0",
+                selectBean: null,
+                currentDate: null
+            }
+        },
         setup() {
             // 编辑器实例，必须用 shallowRef，重要！
             const editorRef = shallowRef();
 
             // 内容 HTML
-            const valueHtml = ref('<p>hello</p>');
-
-            // 模拟 ajax 异步获取内容
-            onMounted(() => {
-                setTimeout(() => {
-                    valueHtml.value = '<p>模拟 Ajax 异步设置内容</p>';
-                }, 1500);
-            });
+            const valueHtml = ref('');
 
             const toolbarConfig = {};
             const editorConfig = {
@@ -134,3 +134,10 @@
         },
     };
 </script>
+
+
+<style lang="scss" scoped>
+    #publish-root {
+        height: 100%;
+    }
+</style>
