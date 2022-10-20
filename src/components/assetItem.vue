@@ -19,14 +19,12 @@
                 </div>
             </div>
 
-            <el-popover placement="top-start" trigger="hover">
-                <span class="colletion-tip">收藏资源</span>
-                <template #reference>
-                    <el-icon class="colletion" v-if="showCollection" :size="16">
-                        <CollectionTag />
-                    </el-icon>
-                </template>
-            </el-popover>
+            <!-- 收藏 -->
+            <el-tooltip effect="dark" content="收藏" placement="top-start">
+                <el-icon class="colletion" v-if="showCollection" :size="16" @click="collet">
+                    <CollectionTag />
+                </el-icon>
+            </el-tooltip>
 
         </div>
 
@@ -34,6 +32,9 @@
 </template>
 
 <script>
+    import {
+        store
+    } from '../store.js'
     export default {
         props: {
             bean: {
@@ -43,16 +44,18 @@
         data() {
             return {
                 showCollection: false,
+                store,
             }
         },
         methods: {
             handleEnter(e) {
-                console.log(11111)
                 this.showCollection = !this.showCollection;
             },
             handleLeave(e) {
-                console.log(2222)
                 this.showCollection = !this.showCollection;
+            },
+            collet() {
+                console.log('this=' + this.store.count)
             }
         }
     }
@@ -61,7 +64,7 @@
 <style lang="scss" scoped>
     .card-bg {
         margin: 10px 10px;
-        width: calc((100% - 200px) / 5);
+        width: calc((100% - 120px) / 5);
         position: relative;
     }
 
@@ -79,11 +82,6 @@
             color: white;
         }
     }
-
-    .colletion-tip {
-        font-size: 12px;
-    }
-
 
     .anim {
         transition: all .5s ease;

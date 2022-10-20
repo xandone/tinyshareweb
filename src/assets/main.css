@@ -15,3 +15,29 @@ a:hover {
   color: #20a0ff;
   text-decoration: none;
 }
+
+
+input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  color : #aaa;
+  font-size: 15px;
+}
+
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color : #aaa;
+  font-size: 15px;
+}
+
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+ color : #aaa;
+ font-size: 15px;
+}
+
+input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+ color : #ddd;
+ font-size: 15px;
+}
+
+input::-ms-input-placeholder { /* Microsoft Edge */
+ color : #ddd;
+ font-size: 15px;
+}

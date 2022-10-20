@@ -2,7 +2,7 @@
     <div class="navi">
         <div class="web-tag">
             <a href="/" class="webname">
-                Tiny分享
+                资源共享
             </a>
             <div class="search">
                 <el-icon class="search-ic" :size="18">
@@ -23,18 +23,69 @@
             <el-icon class="btn edit" @click="go2Publish" :size="16">
                 <Edit />
             </el-icon>
-            <span class=" btn login">登&nbsp;录</span>
+            <div class="login-root">
+                <span class="login" @click="login">登&nbsp;录</span>
+                <span class="login" @click="regist">注&nbsp;册</span>
+            </div>
         </div>
+
+        <!-- 登录 -->
+        <el-dialog v-model="loginDialog" title="登录" width="400px" :before-close="handleClose">
+            <el-input class="el-login" v-model="usermail" placeholder="请输入邮箱">
+                <template #prepend>账户</template>
+            </el-input>
+            <el-input class="el-login" v-model="userpsw" placeholder="请输入密码">
+                <template #prepend>密码</template>
+            </el-input>
+
+            <template #footer>
+                <span class="dialog-footer">
+                    <el-button @click="loginDialog = false">取消</el-button>
+                    <el-button type="primary" @click="loginDialog = false">登录</el-button>
+                </span>
+            </template>
+        </el-dialog>
+
+        <!-- 注册 -->
+        <el-dialog v-model="registDialog" title="登录" width="400px" :before-close="handleClose">
+            <el-input class="el-login" v-model="usermail" placeholder="请输入邮箱">
+                <template #prepend>账户</template>
+            </el-input>
+            <el-input class="el-login" v-model="userpsw" placeholder="请输入密码">
+                <template #prepend>密码</template>
+            </el-input>
+
+            <el-input class="el-login" v-model="userpsw" placeholder="请输入邀请码">
+                <template #prepend>邀请码</template>
+            </el-input>
+
+            <template #footer>
+                <span class="dialog-footer">
+                    <el-button @click="registDialog = false">取消</el-button>
+                    <el-button type="primary" @click="registDialog = false">注册</el-button>
+                </span>
+            </template>
+        </el-dialog>
     </div>
 
 </template>
 
 
 <script>
+    import {
+        store
+    } from '../store.js'
+
     export default {
         data() {
             return {
                 input: '',
+                loginDialog: false,
+                registDialog: false,
+                usermail: '',
+                userpsw: '',
+                visiteCode: '',
+                store,
             }
         },
         methods: {
@@ -43,7 +94,16 @@
             },
             go2Publish() {
                 this.$router.push('/publish')
-            }
+            },
+            login() {
+                this.loginDialog = true
+                this.store.count++;
+            },
+
+            regist() {
+                this.registDialog = true
+                this.store.count++;
+            },
         }
     }
 </script>
@@ -88,7 +148,7 @@
                 position: relative;
 
                 .ic {
-                    margin-right: 6px;
+                    // margin-right: 2px;
                 }
 
 
@@ -123,23 +183,36 @@
                 opacity: .8;
             }
 
+            .login-root {
+                padding: 6px 10px;
+                border: 1px solid #409EFF;
+                border-radius: 6px;
+                margin-left: 10px;
+            }
+
             .login {
-                background-color: #409EFF;
-                color: white;
+                color: #409EFF;
                 font-size: 14px;
                 font-weight: none;
-                padding: 6px 20px;
-                border-radius: 6px;
-                margin-left: 20px;
                 cursor: pointer;
             }
+
+            .login:first-child {
+                padding-right: 5px;
+                border-right: 1px solid #409EFF;
+            }
+
+            .login:last-child {
+                padding-left: 5px;
+            }
+
         }
 
         .edit {
             padding: 8px 12px;
             background-color: #409EFF;
             color: white;
-            margin-left: 20px;
+            margin-left: 10px;
             border-radius: 6px;
             cursor: pointer;
         }
@@ -174,6 +247,11 @@
             padding: 0 10px;
         }
 
+        .search:hover .search-ic {
+            background-color: #409EFF;
+            color: white;
+        }
+
         .search:hover .search-input {
             width: 400px;
             padding: 0 10px;
@@ -190,5 +268,14 @@
         //     width: 800px;
         // }
 
+    }
+
+    .el-login {
+        margin: 0 20px 20px 20px;
+    }
+
+    .el-input {
+        width: 90%;
+        height: 40px;
     }
 </style>

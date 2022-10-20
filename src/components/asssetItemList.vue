@@ -1,6 +1,6 @@
 <template>
     <div id="card-list-root" @mouseenter="handleEnter" @mouseleave="handleLeave">
-        <el-card shadow="Always">
+        <el-card shadow="Always" :body-style="{padding:'10px'}">
             <div class="shadow-root">
                 <img src="http://www.xandone.pub/FmZzFx7cG3vzfpBA0MlmA1l5e9eB" alt="" class="card-img">
                 <div class="content">
@@ -24,14 +24,13 @@
             </div>
         </el-card>
 
-        <el-popover placement="top-start" trigger="hover" v-if="showCollection">
-            <span class="colletion-tip">收藏资源</span>
-            <template #reference>
-                <el-icon class="colletion" :size="14">
-                    <CollectionTag />
-                </el-icon>
-            </template>
-        </el-popover>
+
+        <!-- 收藏 -->
+        <el-tooltip effect="dark" content="收藏" placement="top-start">
+            <el-icon class="colletion" :size="14" v-if="showCollection">
+                <CollectionTag />
+            </el-icon>
+        </el-tooltip>
     </div>
 </template>
 
@@ -47,11 +46,9 @@
         },
         methods: {
             handleEnter(e) {
-                console.log(11111)
                 this.showCollection = !this.showCollection;
             },
             handleLeave(e) {
-                console.log(2222)
                 this.showCollection = !this.showCollection;
             }
         }
@@ -61,13 +58,13 @@
 
 <style lang="scss" scoped>
     #card-list-root {
-        margin-bottom: 10px;
+        // margin-bottom: 10px;
         position: relative;
     }
 
     #card-list-root:hover {
         transition: all 0.3s linear;
-        transform: translateX(-10px);
+        transform: translateX(10px)
     }
 
     .shadow-root {
@@ -150,10 +147,10 @@
 
     .colletion {
         position: absolute;
-        top: 20px;
-        left: 20px;
+        top: 12px;
+        left: 12px;
         background-color: #aaa;
-        padding: 10px;
+        padding: 8px;
         border-radius: 50%;
         color: white;
     }

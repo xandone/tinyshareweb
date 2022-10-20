@@ -2,6 +2,39 @@
     <div id="publish-root">
         <div class="edit-area">
 
+            <div class="el-save">
+                <el-input v-model="inputTitle" placeholder="标题" class="el-title" />
+                <span class="save-btn" @click="saveAssets">保存</span>
+            </div>
+
+
+            <div class="select-type">
+                <span>选择类别:</span>
+                <div>
+                    <el-radio-group v-model="radioType">
+                        <el-radio-button label="0">影视</el-radio-button>
+                        <el-radio-button label="1">游戏</el-radio-button>
+                        <el-radio-button label="2">书籍</el-radio-button>
+                        <el-radio-button label="3">图片</el-radio-button>
+                        <el-radio-button label="4">工具</el-radio-button>
+                    </el-radio-group>
+                </div>
+            </div>
+
+            <div class="cover-img">
+                <span>封面图片:</span>
+                <el-upload action="http://up-z2.qiniup.com" :limit="1" list-type="picture-card"
+                    :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :on-success="handleUpSuccess"
+                    :data="qnParam" :before-upload="handleBeforeUp">
+                    <el-icon>
+                        <Plus />
+                    </el-icon>
+                </el-upload>
+                <el-dialog v-model="coverVisible">
+                    <img w-full :src="coverImgUrl" alt="Preview Image" />
+                </el-dialog>
+            </div>
+
         </div>
         <!-- 编辑器 -->
         <div>
@@ -18,6 +51,9 @@
 
 <script>
     import '@wangeditor/editor/dist/css/style.css';
+    import {
+        ElMessage
+    } from 'element-plus'
     import {
         onBeforeUnmount,
         ref,
@@ -36,14 +72,37 @@
         },
         data() {
             return {
-                piclimit: 1,
+                inputTitle: '',
+                coverVisible: false,
+
                 coverImgUrl: '',
-                dialogVisible: false,
                 radioType: "0",
                 selectBean: null,
-                currentDate: null
+                currentDate: null,
+
+                qiniu_token: '',
+                qnParam: {
+                    token: "",
+                    key: ""
+                },
             }
         },
+
+        methods: {
+            saveAssets() {
+                if (!this.inputTitle) {
+                    this.showError()
+                    return
+                }
+            },
+
+            showError() {
+                ElMessage.error('请输入标题')
+            },
+        },
+
+
+
         setup() {
             // 编辑器实例，必须用 shallowRef，重要！
             const editorRef = shallowRef();
@@ -139,5 +198,58 @@
 <style lang="scss" scoped>
     #publish-root {
         height: 100%;
+    }
+
+
+    .el-save {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .el-title {
+        height: 45px;
+        width: 80%;
+    }
+
+    .save-btn {
+        background-color: #409EFF;
+        color: white;
+        padding: 6px 20px;
+        border-radius: 2px;
+        margin-right: 20px;
+        cursor: pointer;
+    }
+
+    .save-btn:hover {
+        opacity: .8;
+    }
+
+    .select-type {
+        display: flex;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        align-items: center;
+        margin-left: 10px;
+
+        span {
+            font-size: 15px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+    }
+
+    .cover-img {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+
+        span {
+            font-size: 15px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
     }
 </style>
