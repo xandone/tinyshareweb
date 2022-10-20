@@ -7,7 +7,6 @@
                 <span class="save-btn" @click="saveAssets">保存</span>
             </div>
 
-
             <div class="select-type">
                 <span>选择类别:</span>
                 <div>
@@ -40,7 +39,7 @@
         <div>
             <Toolbar :editor="editorRef" :defaultConfig="toolbarConfig" :mode="mode"
                 style="border-bottom: 1px solid #ccc" />
-            <Editor :defaultConfig="editorConfig" :mode="mode" v-model="valueHtml"
+            <Editor :defaultConfig="editorConfig" :mode="mode" v-model="contentHtml"
                 style="height: 500px; overflow-y: hidden" @onCreated="handleCreated" @onChange="handleChange"
                 @onDestroyed="handleDestroyed" @onFocus="handleFocus" @onBlur="handleBlur" @customAlert="customAlert"
                 @customPaste="customPaste" />
@@ -52,13 +51,18 @@
 <script>
     import '@wangeditor/editor/dist/css/style.css';
     import {
+        inject
+    } from 'vue'
+    import {
         ElMessage
     } from 'element-plus'
     import {
         onBeforeUnmount,
         ref,
         shallowRef,
-        onMounted
+        onMounted,
+        reactive,
+        getCurrentInstance
     } from 'vue';
     import {
         Editor,
@@ -72,7 +76,6 @@
         },
         data() {
             return {
-                inputTitle: '',
                 coverVisible: false,
 
                 coverImgUrl: '',
@@ -88,27 +91,14 @@
             }
         },
 
-        methods: {
-            saveAssets() {
-                if (!this.inputTitle) {
-                    this.showError()
-                    return
-                }
-            },
-
-            showError() {
-                ElMessage.error('请输入标题')
-            },
-        },
-
-
-
         setup() {
             // 编辑器实例，必须用 shallowRef，重要！
             const editorRef = shallowRef();
 
             // 内容 HTML
-            const valueHtml = ref('');
+            const inputTitle = ref('');
+            const content = ref('');
+            const contentHtml = ref('');
 
             const toolbarConfig = {};
             const editorConfig = {
@@ -125,26 +115,28 @@
 
             // 编辑器回调函数
             const handleCreated = (editor) => {
-                console.log('created', editor);
+                // console.log('created', editor);
                 editorRef.value = editor; // 记录 editor 实例，重要！
             };
             const handleChange = (editor) => {
-                console.log('change:', editor.getHtml());
+                // console.log('change:', editor.getHtml());
+                // console.log('change:', editor.getText());
+                content.value = editor.getText();
             };
             const handleDestroyed = (editor) => {
-                console.log('destroyed', editor);
+                // console.log('destroyed', editor);
             };
             const handleFocus = (editor) => {
-                console.log('focus', editor);
+                // console.log('focus', editor);
             };
             const handleBlur = (editor) => {
-                console.log('blur', editor);
+                // console.log('blur', editor);
             };
             const customAlert = (info, type) => {
                 alert(`【自定义提示】${type} - ${info}`);
             };
             const customPaste = (editor, event, callback) => {
-                console.log('ClipboardEvent 粘贴事件对象', event);
+                // console.log('ClipboardEvent 粘贴事件对象', event);
 
                 // 自定义插入内容
                 editor.insertText('xxx');
@@ -164,7 +156,7 @@
             const printHtml = () => {
                 const editor = editorRef.value;
                 if (editor == null) return;
-                console.log(editor.getHtml());
+                // console.log(editor.getHtml());
             };
 
             const disable = () => {
@@ -173,10 +165,56 @@
                 editor.disable()
             };
 
+
+            const currentInstance = getCurrentInstance();
+            const {
+                $axios
+            } = currentInstance.appContext.config.globalProperties
+
+            function saveAssets() {
+                if (!inputTitle.value) {
+                    showError('请输入标题');
+                    return;
+                }
+                console.log($axios)
+                $axios.axios.post(`/asset/add`, {
+                        assetUserId: 1212,
+                        title: inputTitle.value,
+                        content: getEtText(),
+                        contentHtml: contentHtml.value,
+                        type: 1,
+                        coverImg: 'http://www.xandone.pub/FmZzFx7cG3vzfpBA0MlmA1l5e9eB',
+                        assetUrl: 'fffffff',
+                        assetCode: '5555'
+                    })
+                    .then((response) => {
+                        const result = response.data;
+                        if (result && result.code === 200) {
+                            // this.resetForm();
+                            this.openSuccess('发表成功!');
+                        } else {
+                            this.openToast('发布失败，服务器异常');
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+
+            };
+
+            function getEtText() {
+                return content.value.replace(/&nbsp;/gi, '');
+            };
+
+            function showError(msg) {
+                ElMessage.error(msg)
+            };
+
             return {
                 editorRef,
                 mode: 'default',
-                valueHtml,
+                content,
+                contentHtml,
                 toolbarConfig,
                 editorConfig,
                 handleCreated,
@@ -188,7 +226,9 @@
                 customPaste,
                 insertText,
                 printHtml,
-                disable
+                disable,
+                saveAssets,
+                inputTitle,
             };
         },
     };
@@ -199,7 +239,6 @@
     #publish-root {
         height: 100%;
     }
-
 
     .el-save {
         display: flex;
