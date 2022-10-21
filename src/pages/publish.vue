@@ -177,8 +177,8 @@
                     return;
                 }
                 console.log($axios)
-                $axios.axios.post(`/asset/add`, {
-                        assetUserId: 1212,
+                $axios.axios.post(`asset/add`, {
+                        userId: 250,
                         title: inputTitle.value,
                         content: getEtText(),
                         contentHtml: contentHtml.value,
@@ -191,9 +191,9 @@
                         const result = response.data;
                         if (result && result.code === 200) {
                             // this.resetForm();
-                            this.openSuccess('发表成功!');
+                            // this.openSuccess('发表成功!');
                         } else {
-                            this.openToast('发布失败，服务器异常');
+                            // this.openToast('发布失败，服务器异常');
                         }
                     })
                     .catch((error) => {

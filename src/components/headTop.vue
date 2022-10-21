@@ -47,7 +47,7 @@
         </el-dialog>
 
         <!-- 注册 -->
-        <el-dialog v-model="registDialog" title="登录" width="400px" :before-close="handleClose">
+        <el-dialog v-model="registDialog" title="注册" width="400px" :before-close="handleClose">
             <el-input class="el-login" v-model="usermail" placeholder="请输入邮箱">
                 <template #prepend>账户</template>
             </el-input>

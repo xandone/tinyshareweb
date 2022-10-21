@@ -24,7 +24,8 @@
                 xpx: 0,
                 ypx: 0,
                 xxx: '500px',
-                selectIndex: 0
+                selectIndex: 0,
+                type: 0
             }
         },
         methods: {
@@ -37,7 +38,9 @@
                 this.currentx = e.target.offsetLeft
             },
             clickTag(index) {
-                this.selectIndex = index
+                this.selectIndex = index;
+                this.type = index;
+                this.$parent.getListByType(this.type);
             }
         }
     }

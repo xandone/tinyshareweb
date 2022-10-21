@@ -30,11 +30,11 @@
             </div>
 
             <div class="item-root" v-if="isGrid">
-                <assetItem v-for="(item,index) in datas" :bean="item" v-bind:key="index"></assetItem>
+                <assetItem v-for="(item,index) in assetDatas" :bean="item" v-bind:key="index"></assetItem>
             </div>
 
             <div class="item-list-root" v-if="!isGrid">
-                <assetListItem2 v-for="(item,index) in datas" :bean="item" v-bind:key="index"></assetListItem2>
+                <assetListItem2 v-for="(item,index) in assetDatas" :bean="item" v-bind:key="index"></assetListItem2>
             </div>
         </div>
     </div>
@@ -47,6 +47,11 @@
     import assetListItem2 from '../components/asssetItemList2.vue'
     import tagList from '../components/tagList.vue'
     import headTop from '../components/headTop.vue'
+
+    import {
+        getCurrentInstance
+    } from 'vue'
+
     export default {
 
         components: {
@@ -58,24 +63,54 @@
         },
 
         data() {
-
             return {
-                datas: [1, 2, 3, 4, 5, 6, 7],
-                isGrid: true
+                $axios: null,
+                isGrid: true,
+
+                assetDatas: [],
+                page: 1,
+                row: 10,
+                count: 0,
+                type: 0
             }
         },
         created() {
-
+            const currentInstance = getCurrentInstance();
+            const {
+                $axios
+            } = currentInstance.appContext.config.globalProperties
+            this.$axios = $axios
+            this.getAllAssets()
         },
 
         methods: {
             getAllAssets() {
+                let params = {
+                    page: this.page,
+                    row: this.row,
+                    type: this.type
+                };
+                this.$axios.axios.get(`/asset/assetlist`, {
+                    params
+                }).then((response) => {
+                    const joker = response.data;
+                    this.count = joker.total;
+                    this.assetDatas = joker.data;
+                }).catch((error) => {
+                    console.log(error);
+                });
 
             },
+
+            getListByType(type) {
+                this.type = type;
+                this.getAllAssets();
+            },
+
             showGrid(isShowGrid) {
                 console.log(isShowGrid)
                 this.isGrid = isShowGrid
-            }
+            },
         }
     }
 </script>

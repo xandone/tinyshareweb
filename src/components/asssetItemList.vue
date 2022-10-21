@@ -5,11 +5,11 @@
                 <img src="http://www.xandone.pub/FmZzFx7cG3vzfpBA0MlmA1l5e9eB" alt="" class="card-img">
                 <div class="content">
                     <div class="title">
-                        <span>[影视]</span>
+                        <span>{{bean.typeName}}</span>
                         <h2><a href="">是多少分水电费水电费水电费</a></h2>
                     </div>
                     <div class="user-des-date">
-                        <div class="des"><span>是多少分水电费水电费水电费是多少分水电费水电费水电费是多少分水电费水电费水电费是多少分水电费水电费水电费</span></div>
+                        <div class="des"><span>{{bean.conetent}}</span></div>
                         <div class="user-date">
                             <div class="user-ic">
                                 <el-icon :size="16">
@@ -17,7 +17,7 @@
                                 </el-icon>
                                 <span>xandone</span>
                             </div>
-                            <div> <span class="date">2022-11-12</span></div>
+                            <div> <span class="date">{{bean.date}}</span></div>
                         </div>
                     </div>
                 </div>
