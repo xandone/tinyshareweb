@@ -56,7 +56,7 @@ axios.interceptors.response.use(function(response) {
             console.log('登录失效')
         }
         if (parseInt(response.data.code) === 204) {
-            // openToast(response.data.msg);
+            // showError(response.data.msg);
             return Promise.reject('error');
         }
     }
@@ -68,12 +68,9 @@ axios.interceptors.response.use(function(response) {
     return Promise.reject(error);
 })
 
-// function openToast(msg) {
-//     vue.$notify.error({
-//         title: '错误',
-//         message: msg
-//     });
-// }
+// function showError(msg) {
+//     ElMessage.error(msg)
+// };
 
 
 export default ({

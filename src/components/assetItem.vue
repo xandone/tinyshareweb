@@ -1,15 +1,17 @@
 <template>
     <div class="card-bg">
         <div class="w-raduis-bg anim  content-root" @mouseenter="handleEnter" @mouseleave="handleLeave">
-            <img class="card-img" src="http://www.xandone.pub/FmZzFx7cG3vzfpBA0MlmA1l5e9eB" alt="">
+            <img class="card-img" :src="bean.coverImg" alt="">
             <div class="card-descip">
-                <div class="date"><span>2022-11-12</span> <span>[影视]</span></div>
-                <h2>
-                    <router-link :to="'/details/'+bean" target="_blank" class="title">
-                        是多少分水电费水电费水电费
+                <div class="date"><span>{{bean.postTime}}</span> <span>[{{bean.typeName}}]</span></div>
+                <h2 class="title">
+                    <router-link :to="'/details/'+bean.assetId" target="_blank">
+                        {{bean.title}}
                     </router-link>
                 </h2>
-                <span class="descip">是多少分水电费水电费水电费水电费水电费水电费水电费</span>
+                <div class="descip">
+                    <span>{{bean.content}}</span>
+                </div>
 
                 <div class="user-ic">
                     <el-icon :size="16">
@@ -68,7 +70,6 @@
         position: relative;
     }
 
-
     .content-root {
         position: relative;
 
@@ -101,7 +102,7 @@
     .card-descip {
         display: flex;
         flex-direction: column;
-        padding: 0 20px 10px 20px;
+        padding: 0 10px 10px 10px;
         color: #99a9bf;
 
 
@@ -111,22 +112,40 @@
             justify-content: space-between;
 
             span:first-child {
-                font-size: 14px;
+                font-size: 13px;
             }
 
             span:last-child {
-                font-size: 14px;
+                font-size: 13px;
             }
         }
 
         .title {
-            display: inline-block;
             margin: 10px 0;
             font-size: 16px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            display: inline-block;
+            text-align: left;
         }
 
         .descip {
-            font-size: 14px;
+            text-align: left;
+            width: 100%;
+            height: 50px;
+            line-height: 25px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+
+            span {
+                font-size: 14px;
+                width: 100%;
+                word-break: break-all;
+            }
         }
 
         .user-ic {

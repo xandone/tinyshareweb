@@ -5,9 +5,23 @@
 </template>
 
 <script>
+  import {
+    store
+  } from './store.js'
+
+  import {
+    getStore
+  } from './utils/utils.js'
+
+  import {
+    USER_INFO_KEY
+  } from './config/env'
+
   export default {
     created() {
-      console.log('验证登录')
+      store.isLogin = getStore(USER_INFO_KEY) !== null
+
+      console.log('isLogin=' + store.isLogin);
     }
   }
 </script>

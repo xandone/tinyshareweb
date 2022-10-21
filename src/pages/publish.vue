@@ -11,11 +11,11 @@
                 <span>选择类别:</span>
                 <div>
                     <el-radio-group v-model="radioType">
-                        <el-radio-button label="0">影视</el-radio-button>
-                        <el-radio-button label="1">游戏</el-radio-button>
-                        <el-radio-button label="2">书籍</el-radio-button>
-                        <el-radio-button label="3">图片</el-radio-button>
-                        <el-radio-button label="4">工具</el-radio-button>
+                        <el-radio-button label=1>影视</el-radio-button>
+                        <el-radio-button label=2>游戏</el-radio-button>
+                        <el-radio-button label=3>书籍</el-radio-button>
+                        <el-radio-button label=4>图片</el-radio-button>
+                        <el-radio-button label=5>工具</el-radio-button>
                     </el-radio-group>
                 </div>
             </div>
@@ -76,18 +76,8 @@
         },
         data() {
             return {
-                coverVisible: false,
-
-                coverImgUrl: '',
-                radioType: "0",
                 selectBean: null,
                 currentDate: null,
-
-                qiniu_token: '',
-                qnParam: {
-                    token: "",
-                    key: ""
-                },
             }
         },
 
@@ -99,11 +89,25 @@
             const inputTitle = ref('');
             const content = ref('');
             const contentHtml = ref('');
+            const radioType = ref(1);
+            const coverImgUrl = ref('');
+            const coverVisible = ref(false);
+            const qiniu_token = ref('');
+            const qnParam = reactive({
+                token: "",
+                key: ""
+            });
+
 
             const toolbarConfig = {};
             const editorConfig = {
                 placeholder: '请输入内容...'
             };
+
+
+            onMounted(() => {
+                getQiniu();
+            });
 
             // 组件销毁时，也及时销毁编辑器，重要！
             onBeforeUnmount(() => {
@@ -139,11 +143,11 @@
                 // console.log('ClipboardEvent 粘贴事件对象', event);
 
                 // 自定义插入内容
-                editor.insertText('xxx');
+                // editor.insertText('xxx');
 
                 // 返回值（注意，vue 事件的返回值，不能用 return）
-                callback(false); // 返回 false ，阻止默认粘贴行为
-                // callback(true) // 返回 true ，继续默认的粘贴行为
+                // callback(false); // 返回 false ，阻止默认粘贴行为
+                callback(true) // 返回 true ，继续默认的粘贴行为
             };
 
             const insertText = () => {
@@ -171,6 +175,9 @@
                 $axios
             } = currentInstance.appContext.config.globalProperties
 
+            /**
+             * 发布资源
+             */
             function saveAssets() {
                 if (!inputTitle.value) {
                     showError('请输入标题');
@@ -178,37 +185,67 @@
                 }
                 console.log($axios)
                 $axios.axios.post(`asset/add`, {
-                        userId: 250,
+                        userId: 123,
                         title: inputTitle.value,
                         content: getEtText(),
                         contentHtml: contentHtml.value,
-                        type: 1,
-                        coverImg: 'http://www.xandone.pub/FmZzFx7cG3vzfpBA0MlmA1l5e9eB',
-                        assetUrl: 'fffffff',
-                        assetCode: '5555'
+                        type: Number(radioType.value),
+                        coverImg: coverImgUrl.value,
+                        assetUrl: '',
+                        assetCode: ''
                     })
                     .then((response) => {
                         const result = response.data;
                         if (result && result.code === 200) {
                             // this.resetForm();
-                            // this.openSuccess('发表成功!');
+                            showSuccess('发表成功!');
                         } else {
-                            // this.openToast('发布失败，服务器异常');
+                            showError('发布失败，服务器异常');
                         }
                     })
                     .catch((error) => {
                         console.log(error);
                     });
-
             };
 
             function getEtText() {
                 return content.value.replace(/&nbsp;/gi, '');
             };
 
+            function getQiniu() {
+                $axios.axios
+                    .get('/qiniu/getToken')
+                    .then((result) => {
+                        qiniu_token.value = result.data.msg;
+                        qnParam.token = qiniu_token.value;
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            };
+
+            function showSuccess(msg) {
+                ElMessage.success(msg)
+            };
+
             function showError(msg) {
                 ElMessage.error(msg)
             };
+
+            function handleBeforeUp(file) {
+                qnParam.key = String(new Date().getTime());
+                console.log('qnParam.key=' + qnParam.key);
+            };
+
+            function handleUpSuccess(response) {
+                coverImgUrl.value = "http://www.xandone.pub/" + response.key;
+                console.log('coverImgUrl.value=' + coverImgUrl.value)
+            };
+
+            function handlePictureCardPreview(file) {
+                coverVisible.value = true;
+            };
+
 
             return {
                 editorRef,
@@ -229,6 +266,12 @@
                 disable,
                 saveAssets,
                 inputTitle,
+                radioType,
+                qiniu_token,
+                qnParam,
+                handleBeforeUp,
+                handleUpSuccess,
+                handlePictureCardPreview,
             };
         },
     };

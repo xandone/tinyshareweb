@@ -3,10 +3,10 @@
         <el-card shadow="Always" :body-style="{padding:'10px'}">
             <div class="content">
                 <div class="title">
-                    <span>[影视]</span>
+                    <span>[{{bean.typeName}}]</span>
                     <h2>
-                        <router-link :to="'/details/'+bean" target="_blank" class="title">
-                            是多少分水电费水电费水电费
+                        <router-link :to="'/details/'+bean.assetId" target="_blank" class="title">
+                            {{bean.title}}
                         </router-link>
                     </h2>
                 </div>
@@ -17,7 +17,7 @@
                         </el-icon>
                         <span>xandone</span>
                     </div>
-                    <div> <span class="date">2022-11-12</span></div>
+                    <div> <span class="date">{{bean.postTime}}</span></div>
                 </div>
             </div>
         </el-card>

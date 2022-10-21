@@ -24,8 +24,8 @@
                 <Edit />
             </el-icon>
             <div class="login-root">
-                <span class="login" @click="login">登&nbsp;录</span>
-                <span class="login" @click="regist">注&nbsp;册</span>
+                <span class="login" @click="loginClick">登&nbsp;录</span>
+                <span class="login" @click="registClick">注&nbsp;册</span>
             </div>
         </div>
 
@@ -41,7 +41,7 @@
             <template #footer>
                 <span class="dialog-footer">
                     <el-button @click="loginDialog = false">取消</el-button>
-                    <el-button type="primary" @click="loginDialog = false">登录</el-button>
+                    <el-button type="primary" @click="login">登录</el-button>
                 </span>
             </template>
         </el-dialog>
@@ -76,6 +76,24 @@
         store
     } from '../store.js'
 
+    import {
+        setStore
+    } from '../utils/utils.js'
+
+    import {
+        USER_INFO_KEY
+    } from '../config/env'
+
+    import {
+        ElMessage
+    } from 'element-plus'
+
+    import {
+        getCurrentInstance
+    } from 'vue'
+
+    import md5 from 'js-md5'
+
     export default {
         data() {
             return {
@@ -88,22 +106,59 @@
                 store,
             }
         },
+
+        created() {
+            const currentInstance = getCurrentInstance();
+            const {
+                $axios
+            } = currentInstance.appContext.config.globalProperties
+            this.$axios = $axios
+        },
         methods: {
             submit22() {
                 alert(this.input)
             },
             go2Publish() {
+                if (!this.store.isLogin) {
+                    this.showError('请先登录');
+                    return;
+                }
                 this.$router.push('/publish')
             },
-            login() {
+            loginClick() {
                 this.loginDialog = true
-                this.store.count++;
             },
 
-            regist() {
+            registClick() {
                 this.registDialog = true
-                this.store.count++;
             },
+
+            login() {
+                let md5pass = md5(this.userpsw);
+                console.log(this.$axios);
+                this.$axios.axios.post(`/user/login`,
+                        this.$axios.Qs.stringify({
+                            "account": this.usermail,
+                            "psw": md5pass
+                        }))
+                    .then((response) => {
+                        const user = response.data;
+                        if (user.code === 200) {
+                            setStore(USER_INFO_KEY, user.data[0]);
+                            this.store.isLogin = true;
+                            this.loginDialog = false;
+                        } else {
+                            this.openToast(user.msg);
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            },
+
+            showError(msg) {
+                ElMessage.error(msg)
+            }
         }
     }
 </script>
@@ -222,7 +277,7 @@
             display: flex;
             align-items: center;
             flex-direction: row;
-            margin-left: 80px;
+            margin-left: 60px;
             padding: 10px;
 
             .search-ic {

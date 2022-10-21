@@ -2,7 +2,7 @@
     <div id="card-list-root" @mouseenter="handleEnter" @mouseleave="handleLeave">
         <el-card shadow="Always" :body-style="{padding:'10px'}">
             <div class="shadow-root">
-                <img src="http://www.xandone.pub/FmZzFx7cG3vzfpBA0MlmA1l5e9eB" alt="" class="card-img">
+                <img :src="bean.coverImg" alt="" class="card-img">
                 <div class="content">
                     <div class="title">
                         <span>{{bean.typeName}}</span>
