@@ -12,6 +12,10 @@ import { getStore } from '../utils/utils.js'
 import { USER_INFO_KEY } from '../config/env'
 // import router from '@/router'
 
+import {
+    ElMessage
+} from 'element-plus'
+
 let vue = createApp();
 
 
@@ -56,7 +60,7 @@ axios.interceptors.response.use(function(response) {
             console.log('登录失效')
         }
         if (parseInt(response.data.code) === 204) {
-            // showError(response.data.msg);
+            showError(response.data.msg);
             return Promise.reject('error');
         }
     }
@@ -68,9 +72,9 @@ axios.interceptors.response.use(function(response) {
     return Promise.reject(error);
 })
 
-// function showError(msg) {
-//     ElMessage.error(msg)
-// };
+function showError(msg) {
+    ElMessage.error(msg)
+};
 
 
 export default ({

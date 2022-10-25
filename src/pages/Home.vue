@@ -36,6 +36,12 @@
             <div class="item-list-root" v-if="!isGrid">
                 <assetListItem2 v-for="(item,index) in assetDatas" :bean="item" v-bind:key="index"></assetListItem2>
             </div>
+
+            <div class="Pagination">
+                <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                    :current-page="currentPage" :page-size="10" layout=" prev, pager, next" :total="count">
+                </el-pagination>
+            </div>
         </div>
     </div>
 </template>
@@ -71,7 +77,8 @@
                 page: 1,
                 row: 10,
                 count: 0,
-                type: 0
+                type: 0,
+                currentPage: 1,
             }
         },
         created() {
@@ -110,6 +117,33 @@
             showGrid(isShowGrid) {
                 console.log(isShowGrid)
                 this.isGrid = isShowGrid
+            },
+
+            searchList(input) {
+                let params = {
+                    page: this.page,
+                    row: this.row,
+                    type: this.type,
+                    title: input
+                };
+                this.$axios.axios.get(`/asset/searchlist`, {
+                    params
+                }).then((response) => {
+                    const joker = response.data;
+                    this.count = joker.total;
+                    this.assetDatas = joker.data;
+                }).catch((error) => {
+                    console.log(error);
+                });
+            },
+            handleSizeChange(val) {
+                console.log(`每页 ${val} 条`);
+            },
+
+            handleCurrentChange(val) {
+                this.currentPage = val;
+                this.page = val;
+                this.getAllAssets();
             },
         }
     }
@@ -166,5 +200,15 @@
 
     .tip {
         font-size: 14px;
+    }
+
+    .Pagination {
+        margin: 20px;
+        padding-bottom: 50px;
+    }
+
+    .el-pagination.is-background .el-pager li:not(.disabled).active {
+        background-color: #409EFF;
+        color: white;
     }
 </style>

@@ -2,7 +2,7 @@
     <div class="navi">
         <div class="web-tag">
             <a href="/" class="webname">
-                资源共享
+                <img src="../assets/logo.svg" alt="" class="logo"> 资源共享
             </a>
             <div class="search">
                 <el-icon class="search-ic" :size="18">
@@ -23,10 +23,21 @@
             <el-icon class="btn edit" @click="go2Publish" :size="16">
                 <Edit />
             </el-icon>
-            <div class="login-root">
+            <div class="login-root" v-if="!store.isLogin">
                 <span class="login" @click="loginClick">登&nbsp;录</span>
                 <span class="login" @click="registClick">注&nbsp;册</span>
             </div>
+
+            <el-dropdown @command="dealCommand">
+                <div><img src="http://www.xandone.pub/1666335396091" alt="" class="user-head" v-if="store.isLogin">
+                </div>
+                <template #dropdown>
+                    <el-dropdown-menu>
+                        <el-dropdown-item command="1">退出登录</el-dropdown-item>
+                    </el-dropdown-menu>
+                </template>
+            </el-dropdown>
+
         </div>
 
         <!-- 登录 -->
@@ -55,14 +66,25 @@
                 <template #prepend>密码</template>
             </el-input>
 
-            <el-input class="el-login" v-model="userpsw" placeholder="请输入邀请码">
+            <el-input class="el-login" v-model="visiteCode" placeholder="请输入邀请码">
                 <template #prepend>邀请码</template>
             </el-input>
 
             <template #footer>
                 <span class="dialog-footer">
                     <el-button @click="registDialog = false">取消</el-button>
-                    <el-button type="primary" @click="registDialog = false">注册</el-button>
+                    <el-button type="primary" @click="register">注册</el-button>
+                </span>
+            </template>
+        </el-dialog>
+
+        <!-- 退出登录 -->
+        <el-dialog v-model="unLoginDialog" title="退出" width="400px" :before-close="handleClose">
+            <span>是否退出登录？</span>
+            <template #footer>
+                <span class="dialog-footer">
+                    <el-button @click="unLoginDialog = false">取消</el-button>
+                    <el-button type="primary" @click="unLogin">退出</el-button>
                 </span>
             </template>
         </el-dialog>
@@ -77,7 +99,8 @@
     } from '../store.js'
 
     import {
-        setStore
+        setStore,
+        removeStore
     } from '../utils/utils.js'
 
     import {
@@ -100,10 +123,14 @@
                 input: '',
                 loginDialog: false,
                 registDialog: false,
+                unLoginDialog: false,
                 usermail: '',
                 userpsw: '',
                 visiteCode: '',
                 store,
+                page: 1,
+                row: 10,
+                assetDatas: [],
             }
         },
 
@@ -116,7 +143,7 @@
         },
         methods: {
             submit22() {
-                alert(this.input)
+                this.$parent.searchList(this.input);
             },
             go2Publish() {
                 if (!this.store.isLogin) {
@@ -133,9 +160,12 @@
                 this.registDialog = true
             },
 
+            unLoginClick() {
+                this.unLoginDialog = true
+            },
+
             login() {
                 let md5pass = md5(this.userpsw);
-                console.log(this.$axios);
                 this.$axios.axios.post(`/user/login`,
                         this.$axios.Qs.stringify({
                             "account": this.usermail,
@@ -148,12 +178,47 @@
                             this.store.isLogin = true;
                             this.loginDialog = false;
                         } else {
-                            this.openToast(user.msg);
+                            this.showError(user.msg);
                         }
                     })
                     .catch((error) => {
                         console.log(error);
                     });
+            },
+
+            register() {
+                let md5pass = md5(this.userpsw);
+                this.$axios.axios.post(`/user/register`,
+                        this.$axios.Qs.stringify({
+                            "account": this.usermail,
+                            "psw": md5pass,
+                            "visiteCode": this.visiteCode
+                        }))
+                    .then((response) => {
+                        const user = response.data;
+                        if (user.code === 200) {
+                            setStore(USER_INFO_KEY, user.data[0]);
+                            this.store.isLogin = true;
+                            this.registDialog = false;
+                        } else {
+                            this.showError(user.msg);
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            },
+
+            unLogin() {
+                removeStore(USER_INFO_KEY);
+                this.store.isLogin = false;
+                this.unLoginDialog = false;
+            },
+
+            dealCommand(command) {
+                if (command = 1) {
+                    this.unLoginClick();
+                }
             },
 
             showError(msg) {
@@ -188,6 +253,12 @@
             font-weight: bold;
             font-family: '仿宋';
             line-height: 80px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            height: 50px;
         }
 
         .top-item {
@@ -332,5 +403,12 @@
     .el-input {
         width: 90%;
         height: 40px;
+    }
+
+    .user-head {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-left: 20px;
     }
 </style>

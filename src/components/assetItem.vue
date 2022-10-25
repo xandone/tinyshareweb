@@ -1,7 +1,7 @@
 <template>
     <div class="card-bg">
         <div class="w-raduis-bg anim  content-root" @mouseenter="handleEnter" @mouseleave="handleLeave">
-            <img class="card-img" :src="bean.coverImg" alt="">
+            <img class="card-img" :src="bean.coverImg" alt="" @click="go2Details">
             <div class="card-descip">
                 <div class="date"><span>{{bean.postTime}}</span> <span>[{{bean.typeName}}]</span></div>
                 <h2 class="title">
@@ -37,6 +37,11 @@
     import {
         store
     } from '../store.js'
+
+    import {
+        ElMessage
+    } from 'element-plus'
+
     export default {
         props: {
             bean: {
@@ -57,7 +62,22 @@
                 this.showCollection = !this.showCollection;
             },
             collet() {
-                console.log('this=' + this.store.count)
+                if (!this.store.isLogin) {
+                    this.showWarn('请先登录')
+                } else {
+                    this.showWarn('功能开发中..')
+                }
+            },
+            go2Details() {
+                this.$router.push({
+                    name: 'details',
+                    params: {
+                        id: this.bean.assetId
+                    }
+                })
+            },
+            showWarn(msg) {
+                ElMessage.warning(msg)
             }
         }
     }
@@ -97,7 +117,9 @@
         height: 200px;
         border-top-right-radius: 20px;
         border-top-left-radius: 20px;
+        cursor: pointer;
     }
+
 
     .card-descip {
         display: flex;
@@ -142,7 +164,7 @@
             -webkit-box-orient: vertical;
 
             span {
-                font-size: 14px;
+                font-size: 13px;
                 width: 100%;
                 word-break: break-all;
             }

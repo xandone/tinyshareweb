@@ -68,6 +68,17 @@
         Editor,
         Toolbar
     } from '@wangeditor/editor-for-vue';
+    import {
+        store
+    } from '../store';
+
+    import {
+        getStore,
+    } from '../utils/utils.js'
+
+    import {
+        USER_INFO_KEY
+    } from '../config/env'
 
     export default {
         components: {
@@ -97,6 +108,8 @@
                 token: "",
                 key: ""
             });
+
+            const userId = ref(0);
 
 
             const toolbarConfig = {};
@@ -179,13 +192,20 @@
              * 发布资源
              */
             function saveAssets() {
+                const userBean = JSON.parse(getStore(USER_INFO_KEY))
+                userId.value = userBean.userId;
+                console.log(userId.value)
+                if (userId == 0) {
+                    showError('登录信息失效，请先登录');
+                    return;
+                }
                 if (!inputTitle.value) {
                     showError('请输入标题');
                     return;
                 }
                 console.log($axios)
                 $axios.axios.post(`asset/add`, {
-                        userId: 123,
+                        userId: userId.value,
                         title: inputTitle.value,
                         content: getEtText(),
                         contentHtml: contentHtml.value,
