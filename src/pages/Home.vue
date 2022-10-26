@@ -29,19 +29,23 @@
                 </div>
             </div>
 
-            <div class="item-root" v-if="isGrid">
-                <assetItem v-for="(item,index) in assetDatas" :bean="item" v-bind:key="index"></assetItem>
-            </div>
+            <div v-if="!isNodata">
+                <div class="item-root" v-if="isGrid">
+                    <assetItem v-for="(item,index) in assetDatas" :bean="item" v-bind:key="index"></assetItem>
+                </div>
 
-            <div class="item-list-root" v-if="!isGrid">
-                <assetListItem2 v-for="(item,index) in assetDatas" :bean="item" v-bind:key="index"></assetListItem2>
-            </div>
+                <div class="item-list-root" v-if="!isGrid">
+                    <assetListItem2 v-for="(item,index) in assetDatas" :bean="item" v-bind:key="index"></assetListItem2>
+                </div>
 
-            <div class="Pagination">
-                <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
-                    :current-page="currentPage" :page-size="10" layout=" prev, pager, next" :total="count">
-                </el-pagination>
+                <div class="Pagination">
+                    <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                        :current-page="currentPage" :page-size="10" layout=" prev, pager, next" :total="count">
+                    </el-pagination>
+                </div>
+
             </div>
+            <nodata v-if="isNodata" />
         </div>
     </div>
 </template>
@@ -53,6 +57,7 @@
     import assetListItem2 from '../components/asssetItemList2.vue'
     import tagList from '../components/tagList.vue'
     import headTop from '../components/headTop.vue'
+    import nodata from '../components/nodata.vue';
 
     import {
         getCurrentInstance
@@ -66,6 +71,7 @@
             assetListItem2,
             tagList,
             headTop,
+            nodata,
         },
 
         data() {
@@ -79,6 +85,7 @@
                 count: 0,
                 type: 0,
                 currentPage: 1,
+                isNodata: false,
             }
         },
         created() {
@@ -103,6 +110,7 @@
                     const joker = response.data;
                     this.count = joker.total;
                     this.assetDatas = joker.data;
+                    this.isNodata = this.count === 0;
                 }).catch((error) => {
                     console.log(error);
                 });
@@ -132,6 +140,7 @@
                     const joker = response.data;
                     this.count = joker.total;
                     this.assetDatas = joker.data;
+                    this.isNodata = this.count === 0;
                 }).catch((error) => {
                     console.log(error);
                 });
@@ -150,7 +159,9 @@
 </script>
 
 <style lang="scss" scoped>
-    #home {}
+    #home {
+        height: 100%;
+    }
 
     .banner {
         // width: 100%;

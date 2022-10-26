@@ -1,5 +1,5 @@
-// let baseUrl = '//xandone.pub/tinyshare';
-const baseUrl = '//localhost/';
+let baseUrl = '//xandone.pub:8088/';
+// const baseUrl = '//localhost/';
 
 const baseImgPath = '/img/';
 

@@ -5,7 +5,7 @@
                 <div class="title">
                     <span>[{{bean.typeName}}]</span>
                     <h2>
-                        <router-link :to="'/details/'+bean.assetId" target="_blank" class="title">
+                        <router-link :to="'/details/'+bean.assetId" class="title">
                             {{bean.title}}
                         </router-link>
                     </h2>

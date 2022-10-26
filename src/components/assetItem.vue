@@ -5,7 +5,7 @@
             <div class="card-descip">
                 <div class="date"><span>{{bean.postTime}}</span> <span>[{{bean.typeName}}]</span></div>
                 <h2 class="title">
-                    <router-link :to="'/details/'+bean.assetId" target="_blank">
+                    <router-link :to="'/details/'+bean.assetId">
                         {{bean.title}}
                     </router-link>
                 </h2>

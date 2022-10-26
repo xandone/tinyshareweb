@@ -1,10 +1,10 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../pages/Home.vue'
 import details from '../pages/details.vue'
 import publish from '../pages/publish.vue'
 
 const router = createRouter({
-    history: createWebHashHistory(),
+    history: createWebHistory('tinyshare'),
     routes: [ {
         path: '/',
         name: 'home',

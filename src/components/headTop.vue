@@ -1,7 +1,7 @@
 <template>
     <div class="navi">
         <div class="web-tag">
-            <a href="/" class="webname">
+            <a href="" class="webname">
                 <img src="../assets/logo.svg" alt="" class="logo"> 资源共享
             </a>
             <div class="search">
